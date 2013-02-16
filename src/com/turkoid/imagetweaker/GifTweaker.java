@@ -174,7 +174,8 @@ public class GifTweaker extends javax.swing.JFrame {
                     encoder.start(filename);
                     encoder.setRepeat(0);
                     for (int j = 0; j < frameCount; j++) {
-                        encoder.setDelay(decoder.getDelay(j));
+                        int delay = decoder.getDelay(j);
+                        encoder.setDelay(delay == 0 ? 10 : delay);
                         encoder.addFrame(subFrames[j][i]);
                     }
                     encoder.finish();
@@ -426,7 +427,7 @@ public class GifTweaker extends javax.swing.JFrame {
         if (src == null) {
             setStatus("Pick a file dummy.");
         } else if (!src.exists()) {
-            setStatus("Oh so you picked a file.  Pick that still exists.");
+            setStatus("Oh so you picked a file.  Pick one that still exists.");
         } else {
             TweakIt();
         }
