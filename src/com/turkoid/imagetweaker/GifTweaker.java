@@ -13,6 +13,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 
 /**
@@ -34,37 +36,24 @@ public class GifTweaker extends javax.swing.JFrame {
         filter = new GifFilter();
         slash = System.getProperty("file.separator");
         fc.setAcceptAllFileFilterUsed(false);
-        /*
-        txtSrc.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent evt) {
-                String ext = Utils.getExtension(txtSrc.getText());
-                btnTweakIt.setEnabled(ext != null && ext.equals("*.gif"));
-            }
 
-            public void removeUpdate(DocumentEvent evt) {
-                String ext = Utils.getExtension(txtSrc.getText());
-                btnTweakIt.setEnabled(ext != null && ext.equals("*.gif"));
-            }
+        ctlRows.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                int rows = (Integer) ctlRows.getValue();
+                int cols = (Integer) ctlColumns.getValue();
 
-            public void insertUpdate(DocumentEvent evt) {
-                String ext = Utils.getExtension(txtSrc.getText());
-                btnTweakIt.setEnabled(ext != null && ext.equals("*.gif"));
+                if (cols == 1 && rows == 1) ctlRows.setValue(2);
             }
         });
-        txtDest.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent evt) {
-                btnTweakIt.setEnabled(!txtDest.getText().trim().isEmpty());
-            }
 
-            public void removeUpdate(DocumentEvent evt) {
-                btnTweakIt.setEnabled(!txtDest.getText().trim().isEmpty());
-            }
+         ctlColumns.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                int rows = (Integer) ctlRows.getValue();
+                int cols = (Integer) ctlColumns.getValue();
 
-            public void insertUpdate(DocumentEvent evt) {
-                btnTweakIt.setEnabled(!txtDest.getText().trim().isEmpty());
+                if (rows == 1 && cols == 1) ctlColumns.setValue(2);
             }
         });
-        */
     }
 
     private static class GifFilter extends FileFilter {
@@ -345,7 +334,7 @@ public class GifTweaker extends javax.swing.JFrame {
         gridBagConstraints.weighty = 1.0;
         panDividePanel.add(lblRowsLabel, gridBagConstraints);
 
-        ctlRows.setModel(new javax.swing.SpinnerNumberModel(2, 2, 10, 1));
+        ctlRows.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(2), Integer.valueOf(1), null, Integer.valueOf(1)));
         ctlRows.setPreferredSize(new java.awt.Dimension(0, 0));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
@@ -362,7 +351,7 @@ public class GifTweaker extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         panDividePanel.add(lblColumnsLabel, gridBagConstraints);
 
-        ctlColumns.setModel(new javax.swing.SpinnerNumberModel(2, 2, 10, 1));
+        ctlColumns.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(2), Integer.valueOf(1), null, Integer.valueOf(1)));
         ctlColumns.setPreferredSize(new java.awt.Dimension(0, 0));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
