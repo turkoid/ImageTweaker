@@ -162,9 +162,15 @@ public class GifTweaker extends javax.swing.JFrame {
                     System.out.println("fn=" + filename);
                     encoder.start(filename);
                     encoder.setRepeat(0);
+                    encoder.setDelay(10);
+                    int prevDelay = 10;
                     for (int j = 0; j < frameCount; j++) {
                         int delay = decoder.getDelay(j);
-                        encoder.setDelay(delay == 0 ? 10 : delay);
+                        delay = delay == 0 ? 10 : delay;
+                        if (delay != prevDelay) {
+                            encoder.setDelay(delay);
+                            prevDelay = delay;
+                        }
                         encoder.addFrame(subFrames[j][i]);
                     }
                     encoder.finish();
